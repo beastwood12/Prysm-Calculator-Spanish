@@ -68,7 +68,7 @@ export default function PrysmSalesCalculator() {
   const g15BreakawayBonus = Math.round(monthlySales * 0.05);
   const annualSales = monthlySales * 12;
 
-  const usdAmountRaw = g15BreakawayBonus * 0.93506;
+  const usdAmountRaw = g15BreakawayBonus *1.28;
   const isCapped = usdAmountRaw > 10000;
   const usdAmount = Math.min(usdAmountRaw, 10000);
   const convertedAmount = usdAmount * exchangeRates[selectedCurrency];
