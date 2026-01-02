@@ -10,7 +10,7 @@ export default function PrysmSalesCalculator() {
     monthlyPurchase: ''
   });
   
-  const [selectedCurrency, setSelectedCurrency] = useState('USD');
+  const [selectedCurrency, setSelectedCurrency] = useState('MXN');
   const [exchangeRates, setExchangeRates] = useState({
     'USD': 1.0000, 'ARS': 1000.00, 'CLP': 950.00, 'COP': 4200.00, 'MXN': 20.15, 'PEN': 3.90
   });
@@ -68,7 +68,7 @@ export default function PrysmSalesCalculator() {
   const g15BreakawayBonus = Math.round(monthlySales * 0.05);
   const annualSales = monthlySales * 12;
 
-  const usdAmountRaw = g15BreakawayBonus *1.28;
+  const usdAmountRaw = g15BreakawayBonus * 0.93506;
   const isCapped = usdAmountRaw > 10000;
   const usdAmount = Math.min(usdAmountRaw, 10000);
   const convertedAmount = usdAmount * exchangeRates[selectedCurrency];
@@ -90,6 +90,7 @@ export default function PrysmSalesCalculator() {
             <Calculator className="h-7 w-7 text-indigo-600" />
             <h1 className="text-2xl font-bold text-gray-800">Calculadora Básica de Ventas de Productos Prysm v2</h1>
           </div>
+          <p className="text-xs text-gray-500 italic">Este calculador de ingresos es exclusivo para la región de Latinoamérica y no debe utilizarse para otros mercados de Nu Skin.</p>
         </div>
 
         <div className="grid grid-cols-2 gap-x-6">
@@ -246,24 +247,23 @@ export default function PrysmSalesCalculator() {
           <div className="bg-white shadow-lg px-4 py-1 rounded-b-xl pb-4">
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-2 my-2">
               <div className="text-xs text-amber-800">
-                <strong>Aviso Legal (Disclaimer):</strong> Esta calculadora solo debe usarse para planificación y establecimiento de metas. Los resultados no garantizan ingresos. Generar ventas y compensación como Afiliado de Marca requiere tiempo, esfuerzo y dedicación. El éxito también depende de tus habilidades, talentos y capacidades de liderazgo. No hay garantía de éxito financiero y los resultados variarán ampliamente entre los participantes. Un resumen completo de ganancias en cada nivel se puede encontrar <a href="https://www.nuskin.com/content/nuskin/en_PH/corporate/reputation/compensation.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">aquí</a>.
+                <strong>Aviso Legal:</strong> Este calculador debe utilizarse únicamente con fines de planificación y establecimiento de metas y no constituye una garantía de éxito ni una predicción de resultados futuros. Generar ventas y compensación como Brand Affiliate requiere tiempo, esfuerzo y dedicación. El éxito también depende de tus habilidades, talentos y capacidades de liderazgo. No existe garantía de éxito financiero, y los resultados pueden variar considerablemente entre los participantes.
+                <br /><br />
+                En 2024, el número promedio mensual de Brand Affiliates activos en Latinoamérica fue de 9,573. De manera mensual, un promedio aproximado de 4,110 Brand Affiliates —equivalente al 42.0% de los Brand Affiliates activos en Latinoamérica— recibió un pago de compensación por ventas. El pago promedio para los Brand Affiliates activos fue de $___**. Para un desglose más detallado de los ingresos de los Brand Affiliates activos en Latinoamérica, haz clic <a href="https://www.nuskin.com/content/nuskin/en_PH/corporate/reputation/compensation.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">AQUÍ</a>.
               </div>
             </div>
           </div>
           <div className="bg-white shadow-lg px-4 py-1 rounded-b-xl pb-4">
             <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-2 my-2">
-              <div className="text-xs text-emerald-800">
-                <strong>Bono Potencial de Liderazgo G1–6 en USD (5%):</strong> {formatCurrency(usdAmount, 'USD')}
-                {isCapped && (
-                  <span className="block mt-1 text-red-600 font-medium">
-                    Nota: Las ganancias están limitadas a $10,000 USD
-                  </span>
-                )}
-              </div>
+              {isCapped && (
+                <div className="text-xs text-red-600 font-medium mb-2">
+                  Nota: Las ganancias están limitadas a $10,000 USD
+                </div>
+              )}
               
-              <div className="mt-3 p-2 bg-white rounded border">
+              <div className="p-2 bg-white rounded border">
                 <div className="text-xs text-gray-700 mb-2">
-                  <strong>Conversión de Moneda:</strong>
+                  <strong>Bono Potencial de Liderazgo G1–6 (5%):</strong>
                   {ratesLoading && <span className="text-blue-600 ml-2">Actualizando tasas...</span>}
                   {lastUpdated && !ratesLoading && <span className="text-gray-500 ml-2">Actualizado: {lastUpdated}</span>}
                 </div>
@@ -274,7 +274,6 @@ export default function PrysmSalesCalculator() {
                     onChange={(e) => setSelectedCurrency(e.target.value)}
                     className="text-xs border border-gray-300 rounded px-2 py-1 focus:ring-1 focus:ring-emerald-500 focus:border-transparent w-full max-w-xs"
                   >
-                    <option value="USD">Estados Unidos - Dólar estadounidense (USD)</option>
                     <option value="ARS">Argentina - Peso argentino (ARS)</option>
                     <option value="CLP">Chile - Peso chileno (CLP)</option>
                     <option value="COP">Colombia - Peso colombiano (COP)</option>
@@ -282,11 +281,8 @@ export default function PrysmSalesCalculator() {
                     <option value="PEN">Perú - Sol peruano (PEN)</option>
                   </select>
                 </div>
-                <div className="text-sm font-semibold text-emerald-700 mb-1">
+                <div className="text-sm font-semibold text-emerald-700">
                   {formatCurrency(convertedAmount, selectedCurrency)}
-                </div>
-                <div className="text-xs text-gray-500">
-                  {formatCurrency(usdAmount, 'USD')} × {exchangeRate.toFixed(4)}
                 </div>
               </div>
             </div>
